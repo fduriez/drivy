@@ -165,9 +165,10 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-//exo1
+//exo1 exo2
 function price(rentals,cars) {
   var time = 0;
+  var reduc = 1;
   for (var i = 0; i < rentals.length; i++) {
     time = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
     time /= (1000*60*60*24);
@@ -175,11 +176,10 @@ function price(rentals,cars) {
     for (var j = 0; j < cars.length; j++) {
       if(rentals[i].carId == cars[j].id) {
         rentals[i].price = rentals[i].distance * cars[j].pricePerKm;
-        console.log("time : " + time);
-        console.log("prix par jour : " + cars[j].pricePerDay);
-        console.log("prix actuel : " + rentals[i].price);
-        rentals[i].price += time * cars[j].pricePerDay;
-        console.log("prix uploader : " + rentals[i].price);
+        if(time>1) reduc = 0.9;
+        else if(time>4) reduc = 0.7;
+        else if(time>10) reduc = 0.5;
+        rentals[i].price += time * cars[j].pricePerDay * reduc;
       }
     }
   }
