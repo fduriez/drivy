@@ -205,8 +205,21 @@ function commission (rentals) {
   }
 }
 
+//exo4
+function Option (rentals) {
+  for (var i = 0; i < rentals.length; i++) {
+    var time = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+    time /= (1000*60*60*24);
+    time++;
+    if (rentals[i].options.deductibleReduction == true) {
+      rentals[i].price += 4 * time;
+    }
+  }
+}
+
 price(rentals,cars);
 commission(rentals);
+Option (rentals);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
