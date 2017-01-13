@@ -185,7 +185,28 @@ function price(rentals,cars) {
   }
 }
 
+//exo3
+function commission (rentals) {
+  var com = 0;
+  for (var i = 0; i < rentals.length; i++) {
+    com = rentals[i].price * 0.3;
+
+    rentals[i].commission.insurance = com / 2;
+
+    var time = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
+    time /= (1000*60*60*24);
+    time++;
+    rentals[i].commission.assistance = time;
+
+    com -= rentals[i].commission.insurance ;
+    com -= rentals[i].commission.assistance ;
+
+    rentals[i].commission.drivy = com;
+  }
+}
+
 price(rentals,cars);
+commission(rentals);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
