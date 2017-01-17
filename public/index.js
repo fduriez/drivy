@@ -206,20 +206,37 @@ function commission (rentals) {
 }
 
 //exo4
-function Option (rentals) {
+function Options (rentals) {
   for (var i = 0; i < rentals.length; i++) {
     var time = new Date(rentals[i].returnDate) - new Date(rentals[i].pickupDate);
     time /= (1000*60*60*24);
     time++;
     if (rentals[i].options.deductibleReduction == true) {
       rentals[i].price += 4 * time;
+      rentals[i].commission.drivy += 4 * time;
+    }
+  }
+}
+
+//exo5
+function PayActors (rentals,actors) {
+  for (var i = 0; i < rentals.length; i++) {
+    for (var j = 0; j < actors.length; j++) {
+      if (rentals[i].id == actors[j].rentalId) {
+        actors[j].payment[0].amount = rentals[i].price;
+        actors[j].payment[1].amount = rentals[i].price - (rentals[i].commission.insurance + rentals[i].commission.drivy + rentals[i].commission.assistance);
+        actors[j].payment[2].amount = rentals[i].commission.insurance;
+        actors[j].payment[3].amount = rentals[i].commission.assistance;
+        actors[j].payment[4].amount = rentals[i].commission.drivy;
+      }
     }
   }
 }
 
 price(rentals,cars);
 commission(rentals);
-Option (rentals);
+Options (rentals);
+PayActors(rentals,actors);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
